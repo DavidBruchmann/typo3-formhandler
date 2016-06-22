@@ -26,7 +26,8 @@ config.tx_extbase.persistence.classes {
 module.tx_formhandler {
 	view.widget.TYPO3\CMS\Fluid\ViewHelpers\Be\Widget\PaginateViewHelper.templateRootPath = EXT:formhandler/Resources/Private/Templates/
 	settings {
-	    forceDelete = 0
+		pagination.itemsPerPage = 100
+		forceDelete = 0
 		pdf {
 			class = Typoheads\Formhandler\Generator\BackendTcPdf
 			config {
