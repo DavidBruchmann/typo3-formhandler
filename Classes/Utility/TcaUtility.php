@@ -96,12 +96,21 @@ class TcaUtility
      */
     public function addFields_predefined($config)
     {
+        $pid = false;
 
-        if (!isset($config['flexParentDatabaseRow'])) {
-            throw new \Exception('could not load config[flexParentDatabaseRow]', 1481134575);
-         }
-        $pid = $config['flexParentDatabaseRow']['pid'];
-
+        // for some (unknown) reasons we have to check multiple entry points (maybe templavoila breaking things?)
+        // HOTFIX 2017-08-14 <peter.niederlag@datenbetrieb.de>
+        if (isset($config['flexParentDatabaseRow'])) {
+            $pid = $config['flexParentDatabaseRow']['pid'];
+        } elseif (isset($config['row']['uid'])) {
+            $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . $config['row']['uid']);
+            if (is_array($row)) {
+                $pid = $row['pid'];
+            }
+        }
+        if ($pid === false) {
+            throw new \Exception('could not determine correct $pid', 1502702928);
+        }
         $ts = $this->loadTS($pid);
 
         $predef = [];
