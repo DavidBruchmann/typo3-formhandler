@@ -20,7 +20,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  * @package    Tx_Formhandler
  * @subpackage    ErrorChecks
  */
-class Float extends AbstractErrorCheck
+class FloatValue extends AbstractErrorCheck
 {
 
     public function check()
