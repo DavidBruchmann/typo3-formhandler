@@ -806,8 +806,11 @@ class Form extends AbstractController
                                         $tmp['uploaded_name'] = $uploadedFileName;
                                         $tmp['uploaded_path'] = $uploadPath;
                                         $tmp['uploaded_folder'] = $uploadFolder;
-                                        $uploadedUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $uploadFolder . $uploadedFileName;
-                                        $uploadedUrl = str_replace('//', '/', $uploadedUrl);
+
+                                        $uploadedUrl = rtrim(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL'), '/');
+                                        $uploadedUrl .= '/' . trim($uploadFolder, '/') . '/';
+                                        $uploadedUrl .= trim($uploadedFileName, '/');
+                                        
                                         $tmp['uploaded_url'] = $uploadedUrl;
                                         $tmp['size'] = $files['size'][$field][$idx];
                                         if (is_array($files['type'][$field][$idx])) {
@@ -1106,6 +1109,9 @@ class Form extends AbstractController
 
         $this->gp = $this->utilityFuncs->getMergedGP();
 
+        if (!$this->settings['uniqueFormID']) {
+            $this->gp['randomID'] = preg_replace('/[^0-9a-z]/', '', preg_quote($this->gp['randomID']));
+        }
         $randomID = $this->gp['randomID'];
         if (!$randomID) {
             if ($this->settings['uniqueFormID']) {
