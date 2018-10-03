@@ -66,7 +66,12 @@
 				<div class="col-xs-12">
 					<f:if condition="{logDataRows -> f:count()} > 0">
 						<f:then>
-							<f:be.widget.paginate objects="{logDataRows}" as="paginatedLogDataRows" configuration="{itemsPerPage: showItems, insertBelow: 1}">
+							<f:comment>
+                                @TODO: REMOVE BOTH LINES IF NOT NEEDED ANYMORE:
+                                <f:be.widget.paginate objects="{logDataRows}" as="paginatedLogDataRows" configuration="{itemsPerPage: showItems, insertBelow: 1}">
+                                <f:be.widget.paginate objects="{logDataRows}" as="paginatedLogDataRows" configuration="{itemsPerPage: {showItems}, insertBelow: 1}">
+                            </f:comment>
+							<f:be.widget.paginate objects="{logDataRows}" as="paginatedLogDataRows" configuration="{itemsPerPage: '{settings.pagination.itemsPerPage}', insertBelow: 1}">
 								<div class="table-fit">
 									<table class="table table-striped table-hover">
 										<thead>
@@ -75,7 +80,7 @@
 												<th><f:translate key="label.submissionDate" /></th>
 												<th><f:translate key="label.ip" /></th>
 												<th>
-													
+
 												</th>
 												<th>
 													<div class="btn-group process-selected-actions" role="group">
@@ -95,10 +100,10 @@
 														<f:if condition="{permissions.delete}">
 															<f:then>
 																<a href="#" class="btn btn-default delete" title="{f:translate(key: 'label.delete-all-selected-logs')}">
-																	<span 
-																		class="fa fa-trash delete-info" 
+																	<span
+																		class="fa fa-trash delete-info"
 																		data-title="{f:translate(key: 'label.delete-all-selected-logs')}"
-																		data-message="{f:translate(key: 'message.delete-log-row')}"> 
+																		data-message="{f:translate(key: 'message.delete-log-row')}">
 																	</span>
 																</a>
 															</f:then>
@@ -151,18 +156,18 @@
 							</f:be.widget.paginate>
 							<f:if condition="{permissions.delete}">
 								<f:then>
-									<f:link.action 
+									<f:link.action
 										action="deleteLogRows"
 										class="btn btn-default delete"
 										arguments="{logDataUids: logDataRow.uid}"
 										title="{f:translate(key: 'label.delete-all-logs')}">
 
-										<span 
-											class="delete-info" 
+										<span
+											class="delete-info"
 											data-title="{f:translate(key: 'label.delete-all-logs')}"
 											data-message="{f:translate(key: 'message.delete-all-logs')}"
 											data-uid="all">
-											{f:translate(key: 'label.delete-all-logs')} 
+											{f:translate(key: 'label.delete-all-logs')}
 										</span>
 									</f:link.action>
 								</f:then>
