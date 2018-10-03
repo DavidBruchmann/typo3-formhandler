@@ -96,18 +96,33 @@ class TcaUtility
      */
     public function addFields_predefined($config)
     {
+        // @TODO: unresolved, see commit f37e0306929c2b5fb0f9bd0426968fb55addee0b (datenbetrieb.de/typo3-formhandler,git) 
         $pid = false;
 
         // for some (unknown) reasons we have to check multiple entry points (maybe templavoila breaking things?)
         // HOTFIX 2017-08-14 <peter.niederlag@datenbetrieb.de>
+        
+        // if (!isset($config['flexParentDatabaseRow'])) {
+        //     throw new \Exception('could not load config[flexParentDatabaseRow]', 1481134575);
+        // }
         if (isset($config['flexParentDatabaseRow'])) {
             $pid = $config['flexParentDatabaseRow']['pid'];
         } elseif (isset($config['row']['uid'])) {
+            // $contentUid = $config['flexParentDatabaseRow']['uid'] ?: 0;
+            // $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . $contentUid);
             $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . $config['row']['uid']);
             if (is_array($row)) {
                 $pid = $row['pid'];
             }
         }
+        // [else] if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'new') {
+        //     $pid = key($GLOBALS['SOBE']->editconf['tt_content']);
+        //     //Formhandler inserted after existing content element
+        //     if(intval($pid) < 0) {
+        //         $element = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('pid', 'tt_content', 'uid=' . abs($pid));
+        //         $pid = $element['pid'];
+        //     }
+        // }
         if ($pid === false) {
             throw new \Exception('could not determine correct $pid', 1502702928);
         }
@@ -178,5 +193,3 @@ class TcaUtility
     }
 
 }
-
-?>
